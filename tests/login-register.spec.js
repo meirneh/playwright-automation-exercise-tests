@@ -5,8 +5,17 @@ import SignUpPage from "../pages/sign-up-page";
 import AccountCreatedPage from "../pages/account-created-page";
 import DeletePage from "../pages/delete-account-page";
 import ContactUsPage from "../pages/contact-us-page";
-import {title, titleLogin, expectedDeleteMsg, enterAccountTitle, errorLoginMessage, errorExistMailMsg, getInTouchTitle, testText} from "../../utils/messageAndTitles.js"
-import {user1, user2} from "../../utils/users.js"
+import {
+  title,
+  titleLogin,
+  expectedDeleteMsg,
+  enterAccountTitle,
+  errorLoginMessage,
+  errorExistMailMsg,
+  getInTouchTitle,
+  testText,
+} from "../../utils/messageAndTitles.js";
+import { user1, user2 } from "../../utils/users.js";
 
 const maxWindow = { width: 1920, height: 1080 };
 
@@ -24,7 +33,6 @@ test.describe("Login,Register,Contact Us", () => {
   let deletepage;
   /**@type{ContactUsPage}*/
   let contacuspage;
- 
 
   test.beforeAll(async () => {
     browser = await chromium.launch();
@@ -76,7 +84,6 @@ test.describe("Login,Register,Contact Us", () => {
     await loginsignuppage.LoginUser(user2.email, user2.password);
     await homepage.verifyLoggedInUser(user2.name);
     await homepage.clickDeleteAccountButton();
-    await deletepage.verifyDeletionAndContinue(expectedDeleteMsg);
   });
 
   test("test 03 Login User with incorrect email and password", async () => {
@@ -115,7 +122,6 @@ test.describe("Login,Register,Contact Us", () => {
     await loginsignuppage.LoginUser(user2.email, user2.password);
     await homepage.verifyLoggedInUser(user2.name);
     await homepage.clickDeleteAccountButton();
-    await page.pause()
     await deletepage.verifyDeletionAndContinue(expectedDeleteMsg);
   });
 
@@ -123,8 +129,8 @@ test.describe("Login,Register,Contact Us", () => {
     await homepage.verifyHomeButton();
     await homepage.clickContactUsButton();
     await contacuspage.verifyGetInTouchTitle(getInTouchTitle);
-    await contacuspage.getInTouch(user2.name,user2.email,testText,testText)
-    await homepage.clickHomeButton()
-    await homepage.verifyHomeButton() 
+    await contacuspage.getInTouch(user2.name, user2.email, testText, testText);
+    await homepage.clickHomeButton();
+    await homepage.verifyHomeButton();
   });
 });

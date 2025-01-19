@@ -1,30 +1,31 @@
 import { expect } from "@playwright/test";
-export default class DeletePage {
+import Basepage from "./basepage";
+export default class DeletePage extends Basepage {
   #accountDeletedMessage;
   #continueButton;
 
   constructor(page) {
+    super(page);
     this.page = page;
     this.#continueButton = page.locator("[data-qa='continue-button']");
     this.#accountDeletedMessage = page.locator("#form  h2 > b");
   }
 
   async clickContinueButton() {
-    await this.#continueButton.click();
-    return this;
+    await this.click(this.#continueButton);
   }
 
-  async getDeletedMessage () {
-    return await this.#accountDeletedMessage.innerText();
+  async getDeletedMessage() {
+    return await this.getTextWithTextContent(this.#accountDeletedMessage);
   }
 
   async verifyDeletedMessage(expectedMessage) {
-    const actualMessage = await this.getDeletedMessage()
+    const actualMessage = await this.getDeletedMessage();
     expect(expectedMessage).toContain(actualMessage);
     return this;
   }
 
-  async verifyDeletionAndContinue(expectedMessage){
+  async verifyDeletionAndContinue(expectedMessage) {
     await this.verifyDeletedMessage(expectedMessage);
     await this.clickContinueButton();
     return this;

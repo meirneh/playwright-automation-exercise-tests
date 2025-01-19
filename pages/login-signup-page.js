@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
-export default class LoginSignUpPage {
+import Basepage from "./basepage";
+export default class LoginSignUpPage extends Basepage {
   #newUserTitle;
   #loginAccountTitle;
   #signupNameField;
@@ -12,6 +13,7 @@ export default class LoginSignUpPage {
   #errorMailExistMsg;
 
   constructor(page) {
+    super(page);
     this.page = page;
     this.#newUserTitle = page.locator("#form :nth-child(3) h2");
     this.#loginAccountTitle = page.locator("#form .col-sm-offset-1 h2");
@@ -28,33 +30,27 @@ export default class LoginSignUpPage {
   }
 
   async fillSignUpName(name) {
-    await this.#signupNameField.fill(name);
-    return this;
+    await this.fill(this.#signupNameField, name);
   }
 
   async fillSignUpEmail(email) {
-    await this.#signupEmailField.fill(email);
-    return this;
+    await this.fill(this.#signupEmailField, email);
   }
 
   async clickSignUpButton() {
-    await this.#signUpButton.click();
-    return this;
+    await this.click(this.#signUpButton);
   }
 
   async fillLoginEmail(email) {
-    await this.#loginEmailField.fill(email);
-    return this;
+    await this.fill(this.#loginEmailField, email);
   }
 
   async fillLoginPassword(password) {
-    await this.#loginPasswordField.fill(password);
-    return this;
+    await this.fill(this.#loginPasswordField, password);
   }
 
   async clickLoginButton() {
-    await this.#loginButton.click();
-    return this;
+    await this.click(this.#loginButton);
   }
 
   async createNewUser(name, email) {
@@ -72,11 +68,11 @@ export default class LoginSignUpPage {
   }
 
   async getNewUserTitleText() {
-    return await this.#newUserTitle.innerText();
+    return await this.getTextWithTextContent(this.#newUserTitle);
   }
 
   async getErrorLoginMsgText() {
-    return await this.#errorLoginMsg.innerText();
+    return await this.getTextWithTextContent(this.#errorLoginMsg);
   }
 
   async verifyNewUserTitleText(title) {
@@ -85,7 +81,7 @@ export default class LoginSignUpPage {
   }
 
   async verifyVisibleNewUserTitle() {
-    return await this.#newUserTitle.isVisible();
+    return await this.isVisible(this.#newUserTitle);
   }
 
   async verifyNewUserTitle(title) {
@@ -94,7 +90,7 @@ export default class LoginSignUpPage {
   }
 
   async getLoginTitleText() {
-    return await this.#loginAccountTitle.innerText();
+    return await this.getTextWithTextContent(this.#loginAccountTitle);
   }
 
   async verifyLoginTitleText(title) {
@@ -103,7 +99,7 @@ export default class LoginSignUpPage {
   }
 
   async verifyVisibleLoginTitle() {
-    return await this.#loginAccountTitle.isVisible();
+    await this.isVisible(this.#loginAccountTitle);
   }
 
   async verifyLoginTitle(title) {
@@ -117,11 +113,11 @@ export default class LoginSignUpPage {
   }
 
   async getErrorMailExistMsgText() {
-    return await this.#errorMailExistMsg.innerText();
+    return await this.getTextWithTextContent(this.#errorMailExistMsg);
   }
 
   async verifyerrorMailExistMsgText(errorMsg) {
-    const actualTitle = await this.getErrorMailExistMsgText()
+    const actualTitle = await this.getErrorMailExistMsgText();
     return expect(actualTitle).toEqual(errorMsg);
   }
 }
