@@ -5,51 +5,10 @@ import SignUpPage from "../pages/sign-up-page";
 import AccountCreatedPage from "../pages/account-created-page";
 import DeletePage from "../pages/delete-account-page";
 import ContactUsPage from "../pages/contact-us-page";
+import {title, titleLogin, expectedDeleteMsg, enterAccountTitle, errorLoginMessage, errorExistMailMsg, getInTouchTitle, testText} from "../../utils/messageAndTitles.js"
+import {user1, user2} from "../../utils/users.js"
 
 const maxWindow = { width: 1920, height: 1080 };
-const title = "New User Signup!";
-const titleLogin = "Login to your account";
-const expectedDeleteMsg = "ACCOUNT DELETED!";
-const enterAccountTitle = "ENTER ACCOUNT INFORMATION";
-const errorLoginMessage = "Your email or password is incorrect!";
-const errorExistMailMsg = "Email Address already exist!";
-const getInTouchTitle = "GET IN TOUCH";
-const testText = "test";
-const user1 = {
-  name: "Haim Cohen",
-  email: "cohen@gmail.com",
-  option: "Mr",
-  password: "1234",
-  birthDate: { dayNum: "7", month: "12", yearNum: "1986" },
-  firstName: "Haim",
-  lastName: "Cohen",
-  companyName: "Cohen ltd.",
-  firstAddress: "Sabionim 1",
-  secondAddress: "Sabionim 2",
-  country: "Israel",
-  stateName: "Central District",
-  cityName: "Tel Aviv",
-  zipcode: "zzz1234",
-  mobile: "0501234567",
-};
-
-const user2 = {
-  name: "Abi Levi",
-  email: "levi@gmail.com",
-  option: "Mr",
-  password: "1234",
-  birthDate: { dayNum: "7", month: "12", yearNum: "1986" },
-  firstName: "Abi",
-  lastName: "Levi",
-  companyName: "Levi ltd.",
-  firstAddress: "Iasminin 1",
-  secondAddress: "Iasminim 2",
-  country: "Israel",
-  stateName: "Central District",
-  cityName: "Tel Aviv",
-  zipcode: "zzz4321",
-  mobile: "0507654321",
-};
 
 test.describe("Login,Register,Contact Us", () => {
   let browser, context, page;
@@ -156,6 +115,7 @@ test.describe("Login,Register,Contact Us", () => {
     await loginsignuppage.LoginUser(user2.email, user2.password);
     await homepage.verifyLoggedInUser(user2.name);
     await homepage.clickDeleteAccountButton();
+    await page.pause()
     await deletepage.verifyDeletionAndContinue(expectedDeleteMsg);
   });
 

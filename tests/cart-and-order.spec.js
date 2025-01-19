@@ -9,147 +9,25 @@ import CheckoutPage from "../pages/checkout-page";
 import PaymentPage from "../pages/payment-page";
 import AccountCreatedPage from "../pages/account-created-page";
 import DeletePage from "../pages/delete-account-page";
+import {user1} from "../../utils/users"
+import {expectedDeleteMsg} from "../../utils/messageAndTitles"
+import {
+  productsList1,
+  quantityProductsInCart,
+  productsInCart,
+  prod0,
+  prod1,
+  prod2,
+  prod3,
+  prod4,
+  productInfo3,
+  productInfo4,
+  productInfo5
+} from "../../utils/productsAndItems";
 
-const productsList1 = [
-  "Blue Top",
-  "Men Tshirt",
-  "Sleeveless Dress",
-  "Stylish Dress",
-  "Winter Top",
-  "Summer White Top",
-  "Madame Top For Women",
-  "Fancy Green Top",
-  "Sleeves Printed Top - White",
-  "Half Sleeves Top Schiffli Detailing - Pink",
-  "Frozen Tops For Kids",
-  "Full Sleeves Top Cherry - Pink",
-  "Printed Off Shoulder Top - White",
-  "Sleeves Top and Short - Blue & Pink",
-  "Little Girls Mr. Panda Shirt",
-  "Sleeveless Unicorn Patch Gown - Pink",
-  "Cotton Mull Embroidered Dress",
-  "Blue Cotton Indie Mickey Dress",
-  "Long Maxi Tulle Fancy Dress Up Outfits -Pink",
-  "Sleeveless Unicorn Print Fit & Flare Net Dress - Multi",
-  "Colour Blocked Shirt – Sky Blue",
-  "Pure Cotton V-Neck T-Shirt",
-  "Green Side Placket Detail T-Shirt",
-  "Premium Polo T-Shirts",
-  "Pure Cotton Neon Green Tshirt",
-  "Soft Stretch Jeans",
-  "Regular Fit Straight Jeans",
-  "Grunt Blue Slim Fit Jeans",
-  "Rose Pink Embroidered Maxi Dress",
-  "Cotton Silk Hand Block Print Saree",
-  "Rust Red Linen Saree",
-  "Beautiful Peacock Blue Cotton Linen Saree",
-  "Lace Top For Women",
-  "GRAPHIC DESIGN MEN T SHIRT - BLUE",
-];
+import { expectedDeliveryInfo1, paymentDetails1 } from "../../utils/paymentsAndDeliveries";
+
 const maxSizeWindow = { width: 1920, height: 1080 };
-const quantityProductsInCart = 2;
-const productsInCart = ["Blue Top", "Summer White Top"];
-const prod0 = {
-  productName: productsInCart[0],
-  expectedDescription: "Women > Tops",
-  expectedPrice: "Rs. 500",
-  expectedQuantity: "1",
-  expectedTotalPrice: "Rs. 500",
-};
-const prod1 = {
-  productName: productsInCart[1],
-  expectedDescription: "Women > Tops",
-  expectedPrice: "Rs. 400",
-  expectedQuantity: "1",
-  expectedTotalPrice: "Rs. 400",
-};
-
-const prod2 = {
-  productName: productsList1[3],
-  expectedDescription: "Women > Dress",
-  expectedPrice: "Rs. 1500",
-  expectedQuantity: "4",
-  expectedTotalPrice: "Rs. 6000",
-};
-
-const prod3 = {
-  productName: productsList1[22],
-  expectedDescription: "Men > Tshirts",
-  expectedPrice: "Rs. 1000",
-  expectedQuantity: "1",
-  expectedTotalPrice: "Rs. 1000",
-};
-
-const prod4 = {
-  productName: productsList1[24],
-  expectedDescription: "Men > Tshirts",
-  expectedPrice: "Rs. 850",
-  expectedQuantity: "1",
-  expectedTotalPrice: "Rs. 850",
-};
-
-const productInfo3 = {
-  name: productsList1[3],
-  details: "Category: Women > Dress",
-  availability: "Availability: In Stock",
-  condition: "Condition: New",
-  brand: "Brand: Madame",
-};
-
-const productInfo4 = {
-  name: productsList1[22],
-  details: "Category: Men > Tshirts",
-  availability: "Availability: In Stock",
-  condition: "Condition: New",
-  brand: "Brand: Polo",
-};
-
-const productInfo5 = {
-  name: productsList1[24],
-  details: "Category: Men > Tshirts",
-  availability: "Availability: In Stock",
-  condition: "Condition: New",
-  brand: "Brand: H&M",
-};
-
-
-const user1 = {
-  name: "Haim Cohen",
-  email: "cohen@gmail.com",
-  option: "Mr",
-  password: "1234",
-  birthDate: { dayNum: "7", month: "12", yearNum: "1986" },
-  firstName: "Haim",
-  lastName: "Cohen",
-  companyName: "Cohen ltd.",
-  firstAddress: "Sabionim 1",
-  secondAddress: "Sabionim 2",
-  country: "Israel",
-  stateName: "Central District",
-  cityName: "Tel Aviv",
-  zipcode: "zzz1234",
-  mobile: "0501234567",
-};
-
-const expectedDeleteMsg = "ACCOUNT DELETED!";
-
-const expectedDeliveryInfo1 = {expectedFullName:"Mr. Haim Cohen", 
-                              expectedCompany: "Cohen ltd.",
-                              expectedFirstAddress:"Sabionim 1",
-                              expectedSecondAddress:"Sabionim 2",
-                              expectedCityStateZip:"Tel Aviv Central District zzz1234",
-                              expectedCountry:"Israel",
-                              expectedPhone: "0501234567"};
-const paymentDetails1 = 
-{name: user1.name,
-  cardNumber: "4580123456789012",
-  cvcNumber: "123",
-  expiryDate: {
-      month: "10",
-      year: "2030"
-  }
-}
-
 
 test.describe.serial("Cart and Order Management", () => {
   let browser, context, page;
