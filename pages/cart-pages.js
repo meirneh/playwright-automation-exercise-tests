@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
-export default class CartPage {
+import Basepage from "./basepage";
+export default class CartPage extends Basepage {
   #emailSuscriptionField;
   #suscribeButton;
   #suscribeSuccessMsg;
@@ -13,6 +14,7 @@ export default class CartPage {
   #registerLoginButton;
 
   constructor(page) {
+    super(page);
     this.page = page;
     this.#emailSuscriptionField = page.locator("#susbscribe_email");
     this.#suscribeButton = page.locator("#subscribe");
@@ -24,12 +26,12 @@ export default class CartPage {
     this.#quantity = page.locator(".cart_quantity");
     this.#cartTotalPrice = page.locator(".cart_total_price");
     this.#checkoutButton = page.locator(".btn.btn-default.check_out");
-    this.#registerLoginButton = page.locator(".modal-body :nth-child(2)")
+    this.#registerLoginButton = page.locator(".modal-body :nth-child(2)");
   }
 
   async suscribeUser(email) {
-    await this.#emailSuscriptionField.fill(email);
-    await this.#suscribeButton.click();
+    await this.fill(this.#emailSuscriptionField, email);
+    await this.click(this.#suscribeButton);
     return this;
   }
 
@@ -59,72 +61,86 @@ export default class CartPage {
   }
 
   async clickCheckoutButton() {
-    await this.#checkoutButton.click();
-    return this;
+    await this.click(this.#checkoutButton);
   }
 
   async clickRegisterLoginButton() {
-    await this.#registerLoginButton.click()
-    return this;
+    await this.click(this.#registerLoginButton);
   }
 
-    async findProductInCart(productName, callback= async () => {}, logSelectedProduct = true) {
-      const actualQuantity = await this.countProducts(); // Counts the products in the cart
-      for (let i = 0; i < actualQuantity; i++) { // Iterates on each product.
-          const currentProductName = await this.#cartProductName.nth(i).innerText(); // gets the name of the product
-          if (currentProductName === productName) { // if it matches the product you are looking for:
-              if (logSelectedProduct) {
-                  console.log("The selected product is " + currentProductName); // Prints if is enable
-              }
-              return await callback(i); // calls the callback with the index of the founded product 
-          }
+  async findProductInCart(
+    productName,
+    callback = async () => {},
+    logSelectedProduct = true
+  ) {
+    const actualQuantity = await this.countProducts(); // Counts the products in the cart
+    for (let i = 0; i < actualQuantity; i++) {
+      // Iterates on each product.
+      const currentProductName = await this.#cartProductName.nth(i).innerText(); // gets the name of the product
+      if (currentProductName === productName) {
+        // if it matches the product you are looking for:
+        if (logSelectedProduct) {
+          console.log("The selected product is " + currentProductName); // Prints if is enable
+        }
+        return await callback(i); // calls the callback with the index of the founded product
       }
+    }
   }
 
   async getCartDescriptionInCart(productName) {
-    return this.findProductInCart(productName,async(i)=>{
-      return await this.#cartDescription.nth(i).innerText();
-    },false)
+    return this.findProductInCart(
+      productName,
+      async (i) => {
+        return await this.#cartDescription.nth(i).innerText();
+      },
+      false
+    );
   }
 
   async verifyDescriptionInCart(productName, expectedDescription) {
-    const actualDescription = await this.getCartDescriptionInCart(productName)
-    return expect(actualDescription).toEqual(expectedDescription)
+    const actualDescription = await this.getCartDescriptionInCart(productName);
+    return expect(actualDescription).toEqual(expectedDescription);
   }
- 
 
   async getPriceProdInCart(productName) {
-    return this.findProductInCart(productName, async (i)=>{
-     return await this.#price.nth(i).innerText();
-    }, false )
+    return this.findProductInCart(
+      productName,
+      async (i) => {
+        return await this.#price.nth(i).innerText();
+      },
+      false
+    );
   }
 
-  async verifyPriceProdInCart(productName,expectedPrice) {
-   const actualPrice = await this.getPriceProdInCart(productName)
-   return expect(actualPrice).toEqual(expectedPrice)
+  async verifyPriceProdInCart(productName, expectedPrice) {
+    const actualPrice = await this.getPriceProdInCart(productName);
+    return expect(actualPrice).toEqual(expectedPrice);
   }
 
   async getQuantityProdInCart(productName) {
-   return this.findProductInCart(productName, async(i)=>{
-    return await this.#quantity.nth(i).innerText();
-   },false)
+    return this.findProductInCart(
+      productName,
+      async (i) => {
+        return await this.#quantity.nth(i).innerText();
+      },
+      false
+    );
   }
 
-  async verifyQuantityProdInCart(productName,expectedQuantity) {
-    const actualQuantity = await this.getQuantityProdInCart(productName)
+  async verifyQuantityProdInCart(productName, expectedQuantity) {
+    const actualQuantity = await this.getQuantityProdInCart(productName);
     return expect(actualQuantity).toEqual(expectedQuantity);
-   }
-
-   async getTotalPriceProdInCart(productName) {
-    return this.findProductInCart(productName, async (i)=>{
-      return await this.#cartTotalPrice.nth(i).innerText();
-    })
   }
 
-  
-  async verifyTotalPriceProdInCart(productName,expectedTotalPrice) {
-   const actualTotalPrice = await this.getTotalPriceProdInCart(productName)
-   return expect(actualTotalPrice).toEqual(expectedTotalPrice)
+  async getTotalPriceProdInCart(productName) {
+    return this.findProductInCart(productName, async (i) => {
+      return await this.#cartTotalPrice.nth(i).innerText();
+    });
+  }
+
+  async verifyTotalPriceProdInCart(productName, expectedTotalPrice) {
+    const actualTotalPrice = await this.getTotalPriceProdInCart(productName);
+    return expect(actualTotalPrice).toEqual(expectedTotalPrice);
   }
 
   async verifyQuantityProducts(expectedQuantity) {
@@ -133,12 +149,18 @@ export default class CartPage {
     return this;
   }
 
-  async verifyProductInfoInCart({productName, expectedDescription, expectedPrice, expectedQuantity, expectedTotalPrice}) {
-    await this.verifyDescriptionInCart(productName,expectedDescription)
-    await this.verifyPriceProdInCart(productName,expectedPrice)
-    await this.verifyQuantityProdInCart(productName,expectedQuantity)
-    await this.verifyTotalPriceProdInCart(productName,expectedTotalPrice)
-    return this
+  async verifyProductInfoInCart({
+    productName,
+    expectedDescription,
+    expectedPrice,
+    expectedQuantity,
+    expectedTotalPrice,
+  }) {
+    await this.verifyDescriptionInCart(productName, expectedDescription);
+    await this.verifyPriceProdInCart(productName, expectedPrice);
+    await this.verifyQuantityProdInCart(productName, expectedQuantity);
+    await this.verifyTotalPriceProdInCart(productName, expectedTotalPrice);
+    return this;
   }
 
   async verifySuscribeMessageVisible() {

@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
-export default class SignUpPage {
+import Basepage from "./basepage";
+export default class SignUpPage extends Basepage {
   #enterAccountTitle;
   #buttonMr;
   #buttonMrs;
@@ -24,6 +25,7 @@ export default class SignUpPage {
   #createAccountButton;
 
   constructor(page) {
+    super(page);
     this.page = page;
     this.#enterAccountTitle = page.locator("#form  h2 > b");
     this.#buttonMr = page.locator("#id_gender1");
@@ -51,30 +53,29 @@ export default class SignUpPage {
 
   async clickGenderOption(option) {
     if ((option = "Mr")) {
-      await this.#buttonMr.click();
+      await this.click(this.#buttonMr);
     } else if ((option = "Mrs")) {
-      await this.#buttonMrs.click();
+      await this.click(this.#buttonMrs);
     }
-    return this;
   }
 
   async fillPassword(password) {
-    await this.#passwordField.fill(password);
+    await this.fill(this.#passwordField, password);
     return this;
   }
 
   async selectDay(dayNumber) {
-    await this.#daySelect.selectOption({ value: dayNumber });
+    await this.selectByOption(this.#daySelect, { value: dayNumber });
     return this;
   }
 
   async selectMonth(monthNumber) {
-    await this.#monthSelect.selectOption({ value: monthNumber });
+    await this.selectByOption(this.#monthSelect, { value: monthNumber });
     return this;
   }
 
   async selectYear(yearNumber) {
-    await this.#yearSelect.selectOption({ value: yearNumber });
+    await this.selectByOption(this.#yearSelect, { value: yearNumber });
     return this;
   }
 
@@ -86,23 +87,19 @@ export default class SignUpPage {
   }
 
   async clickNewsLetter() {
-    await this.#newsLetterCheckBox.click();
-    return this;
+    await this.click(this.#newsLetterCheckBox);
   }
 
   async clickSpecialOfferts() {
-    await this.#specialOfferCheckBox.click();
-    return this;
+    await this.click(this.#specialOfferCheckBox);
   }
 
   async fillFirstNameField(firstName) {
-    await this.#firstNameField.fill(firstName);
-    return this;
+    await this.fill(this.#firstNameField, firstName);
   }
 
   async fillLastNameField(lastName) {
-    await this.#lastNameField.fill(lastName);
-    return this;
+    await this.fill(this.#lastNameField, lastName);
   }
 
   async fillPersonalInfo({
@@ -126,35 +123,31 @@ export default class SignUpPage {
     return this;
   }
   //----------------------------------------------------------------------------
+
   async fillCompanyName(companyName) {
-    await this.#companyField.fill(companyName);
-    return this;
+    await this.fill(this.#companyField, companyName);
   }
 
   async fillFirstAddress(firstAddress) {
-    await this.#firstAddressField.fill(firstAddress);
-    return this;
+    await this.fill(this.#firstAddressField, firstAddress);
   }
 
   async fillSecondAddress(secondAddress) {
-    await this.#secondAddressField.fill(secondAddress);
-    return this;
+    await this.fill(this.#secondAddressField, secondAddress);
   }
 
   async selectCountry(country) {
-    await this.#countrySelect.selectOption({ value: country });
-    return this;
+    await this.selectByOption(this.#countrySelect,{ value: country})
   }
 
   async fillState(stateName) {
-    await this.#stateField.fill(stateName);
-    return this;
+    await this.fill(this.#stateField, stateName);
   }
 
   async fillCity(cityName) {
-    await this.#cityField.fill(cityName);
-    return this;
+    await this.fill(this.#cityField, cityName);
   }
+
   async fillUserLocation({
     companyName,
     firstAddress,
@@ -172,14 +165,13 @@ export default class SignUpPage {
     return this;
   }
   //-----------------------------------------------------------------------------------------------
+
   async fillZipcode(zipcode) {
-    await this.#zipcodeField.fill(zipcode);
-    return this;
+    await this.fill(this.#zipcodeField, zipcode);
   }
 
   async fillMobileNumber(mobile) {
-    await this.#mobileNumberField.fill(mobile);
-    return this;
+    await this.fill(this.#mobileNumberField, mobile);
   }
   //-----------------------------------------------------------------------------------------------------
   async fillComUserInfo({ zipcode, mobile }) {
@@ -189,8 +181,7 @@ export default class SignUpPage {
   }
 
   async clickCreateAccountButton() {
-    await this.#createAccountButton.click();
-    return this;
+    await this.click(this.#createAccountButton);
   }
 
   async registerNewAccount(user) {
@@ -218,7 +209,7 @@ export default class SignUpPage {
 
   //-----------------------------------------------------------------------------------------------------
   async getUserAccountTitleText() {
-    return await this.#enterAccountTitle.first().innerText();
+    return await this.getTextWithTextContent(this.#enterAccountTitle.first());
   }
 
   async verifyUserAccountTitleText(title) {
@@ -227,7 +218,7 @@ export default class SignUpPage {
   }
 
   async getinputRegisteredName() {
-    return await this.#nameRegisterField.inputValue();
+    return await this.getInputValue(this.#nameRegisterField);
   }
 
   async verifyRegisteredName(name) {
@@ -236,7 +227,7 @@ export default class SignUpPage {
   }
 
   async getinputRegisteredEmail() {
-    return this.#emailRegisterField.inputValue();
+    return this.getInputValue(this.#emailRegisterField);
   }
 
   async verifyRegisteredEmail(email) {

@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
-export default class ContactUsPage {
+import Basepage from "./basepage";
+export default class ContactUsPage extends Basepage {
   #getInTouchTitle;
   #nameField;
   #subjectField;
@@ -9,6 +10,7 @@ export default class ContactUsPage {
   #succesMsg;
 
   constructor(page) {
+    super(page);
     this.page = page;
     this.#getInTouchTitle = page.locator(".row .col-sm-8 h2");
     this.#nameField = page.locator("[data-qa='name']");
@@ -20,41 +22,37 @@ export default class ContactUsPage {
   }
 
   async fillName(name) {
-    await this.#nameField.fill(name);
-    return this;
+    await this.fill(this.#nameField, name);
   }
 
   async fillEmail(email) {
-    await this.#emailField.fill(email);
-    return this;
+    await this.fill(this.#emailField, email);
   }
 
   async fillSubject(subject) {
-    await this.#subjectField.fill(subject);
-    return this;
+    await this.fill(this.#subjectField, subject);
   }
 
   async fillMessage(text) {
-    await this.#messageTextArea.fill(text)
-    return this;
-}
+    await this.fill(this.#messageTextArea, text);
+  }
 
-async clickSubmitButon() {
-    await this.#submitButon.click();
+  async clickSubmitButon() {
+    await this.click(this.#submitButon);
     return this;
-}
+  }
 
-async getInTouch(name, email, subject, text) {
+  async getInTouch(name, email, subject, text) {
     await this.fillName(name);
     await this.fillEmail(email);
     await this.fillSubject(subject);
     await this.fillMessage(text);
-    await this.clickSubmitButon({force:true});
-    return this
-}
+    await this.clickSubmitButon({ force: true });
+    return this;
+  }
 
   async getTextTitle() {
-    return await this.#getInTouchTitle.innerText();
+    return await this.getTextWithInnerText(this.#getInTouchTitle);
   }
 
   async verifyGetInTouchTitle(title) {
@@ -63,6 +61,6 @@ async getInTouch(name, email, subject, text) {
   }
 
   async getSuccessMsg() {
-    return await this.#succesMsg.innerText();
+    return await this.getTextWithInnerText(this.#succesMsg);
   }
 }

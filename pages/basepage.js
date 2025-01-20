@@ -41,12 +41,13 @@ export default class Basepage {
     }
   }
 
-  async selectOption(selectorOrLocator, value) {
+  async selectByOption(selectorOrLocator, option) {
     if (typeof selectorOrLocator === "string") {
-      await this.page.selectOption(selectorOrLocator, value);
+      await this.page.locator(selectorOrLocator).selectOption(option);
     } else {
-      await selectorOrLocator.selectOption(value);
+      await selectorOrLocator.selectOption(option);
     }
+    return this;
   }
 
   async hover(selectorOrLocator) {
@@ -121,12 +122,12 @@ export default class Basepage {
   }
 
   async getTextWithInnerText(selectorOrLocator) {
-        if (typeof selectorOrLocator === "string") {
-            return await this.page.locator(selectorOrLocator).innerText();
-        } else {
-            return await selectorOrLocator.innerText();
-        }
+    if (typeof selectorOrLocator === "string") {
+      return await this.page.locator(selectorOrLocator).innerText();
+    } else {
+      return await selectorOrLocator.innerText();
     }
+  }
 
   async getTextWithTextContent(selectorOrLocator) {
     if (typeof selectorOrLocator === "string") {
@@ -141,6 +142,14 @@ export default class Basepage {
       return await this.page.locator(selectorOrLocator).getAttribute(attribute);
     } else {
       return await selectorOrLocator.getAttribute(attribute);
+    }
+  }
+
+  async getInputValue(selectorOrLocator) {
+    if (typeof selectorOrLocator === "string") {
+      return await this.page.locator(selectorOrLocator).inputValue();
+    } else {
+      return await selectorOrLocator.inputValue();
     }
   }
 

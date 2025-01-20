@@ -100,7 +100,7 @@ test.describe.serial("Cart and Order Management", () => {
     await cartpage.verifyProductInfoInCart(prod2);
   });
 
-  test("test 05 Place Order: Register while Checkout", async () => {
+  test("test 03 Place Order: Register while Checkout", async () => {
     await homepage.clickProductsButton();
     await productspage.selectViewProductByName(productsList1[22]);
     await productpage.verifyProductInfo(productInfo4);
@@ -127,7 +127,7 @@ test.describe.serial("Cart and Order Management", () => {
     await deletepage.verifyDeletionAndContinue(expectedDeleteMsg);
   });
 
-  test("test 06 Register before Checkout ", async () => {
+  test("test 04 Register before Checkout ", async () => {
     await homepage.clickProductsButton();
     await homepage.clickSignupLoginLogoutButton();
     await loginsignuppage.createNewUser(user1.name, user1.email);

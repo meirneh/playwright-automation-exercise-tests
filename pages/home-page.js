@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
-export default class HomePage {
+import Basepage from "./basepage";
+export default class HomePage extends Basepage {
   #homeButton;
   #signuploginlogoutButton;
   #deleteAccountButton;
@@ -12,6 +13,7 @@ export default class HomePage {
   #suscribeSuccessMsg;
 
   constructor(page) {
+    super(page);
     this.page = page;
     this.#homeButton = page.locator(".col-sm-8 :nth-child(1) > a");
     this.#signuploginlogoutButton = page.locator(".col-sm-8 :nth-child(4) > a");
@@ -26,44 +28,38 @@ export default class HomePage {
   }
 
   async clickSignupLoginLogoutButton() {
-    await this.#signuploginlogoutButton.click();
-    return this;
+    await this.click(this.#signuploginlogoutButton);
   }
 
   async clickHomeButton() {
-    await this.#homeButton.click();
-    return;
+    await this.click(this.#homeButton);
   }
 
   async clickDeleteAccountButton() {
-    await this.#deleteAccountButton.click();
-    return this;
+    await this.click(this.#deleteAccountButton);
   }
 
   async clickContactUsButton() {
-    await this.#contactUsButton.click();
-    return this;
+    await this.click(this.#contactUsButton);
   }
 
   async clickProductsButton() {
-    await this.#productsButton.click();
-    return this;
+    await this.click(this.#productsButton);
   }
 
   async clickCartButton() {
-    await this.#cartButton.click();
-    return this;
+    await this.click(this.#cartButton);
   }
 
   async suscribeUser(email) {
     await this.#emailSuscriptionField.scrollIntoViewIfNeeded();
-    await this.#emailSuscriptionField.fill(email);
-    await this.#suscribeButton.click();
+    await this.fill(this.#emailSuscriptionField, email);
+    await this.click(this.#suscribeButton);
     return this;
   }
 
   async verifyHomeButton() {
-    return await this.#homeButton.isVisible();
+    return await this.isVisible(this.#homeButton);
   }
 
   async verifyLoggedInUser(expectedName) {
@@ -72,13 +68,13 @@ export default class HomePage {
     expect(actualText.trim()).toBe(expectedText);
     return this;
   }
-
+ 
   async verifySignupLoginLogoutButton() {
-    return await this.#signuploginlogoutButton.isVisible();
+    return await this.isVisible(this.#signuploginlogoutButton);
   }
 
   async verifySuscribeMessageVisible() {
-    return await this.#suscribeSuccessMsg.isVisible();
+    return await this.isVisible(this.#suscribeSuccessMsg);
   }
 
   async verifySuscribeSuscribeText() {
@@ -89,7 +85,7 @@ export default class HomePage {
 
   async verifySuscribeMessage() {
     await this.verifySuscribeMessageVisible();
-    await this.verifySuscribeSuscribeText()
+    await this.verifySuscribeSuscribeText();
     return this;
   }
 }
