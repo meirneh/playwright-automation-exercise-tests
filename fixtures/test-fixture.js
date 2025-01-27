@@ -23,7 +23,6 @@ export const test = baseTest.extend({
 
   page: async ({ context }, use) => {
     const page = await context.newPage();
-    // await page.setViewportSize({ width: 1920, height: 1080 });
     await page.setViewportSize(maxWindow);
     await page.goto("https://www.automationexercise.com/");
     await use(page);
