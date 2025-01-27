@@ -104,12 +104,12 @@ test.describe("Login,Register,Contact Us", () => {
   });
 
   test("test 06  Contact Us Form", async ({homepage,
-    contacuspage,
+    contactuspage,
   }) => {
     await homepage.verifyHomeButton();
     await homepage.clickContactUsButton();
-    await contacuspage.verifyGetInTouchTitle(getInTouchTitle);
-    await contacuspage.getInTouch(user2.name, user2.email, testText, testText);
+    await contactuspage.verifyGetInTouchTitle(getInTouchTitle);
+    await contactuspage.getInTouch(user2.name, user2.email, testText, testText);
     await homepage.clickHomeButton();
     await homepage.verifyHomeButton();
   });

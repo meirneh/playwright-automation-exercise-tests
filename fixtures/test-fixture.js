@@ -60,7 +60,7 @@ export const test = baseTest.extend({
   deletepage: async ({ page }, use) => {
     await use(new DeletePage(page));
   },
-  contacuspage: async({page},use)=>{
+  contactuspage: async({page},use)=>{
    await use(new ContactUsPage(page))
   }
 });
