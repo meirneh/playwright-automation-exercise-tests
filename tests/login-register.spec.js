@@ -1,10 +1,4 @@
-import { chromium, expect, test } from "@playwright/test";
-import HomePage from "../pages/home-page";
-import LoginSignUpPage from "../pages/login-signup-page";
-import SignUpPage from "../pages/sign-up-page";
-import AccountCreatedPage from "../pages/account-created-page";
-import DeletePage from "../pages/delete-account-page";
-import ContactUsPage from "../pages/contact-us-page";
+import { test,expect } from "../fixtures/test-fixture";
 import {
   title,
   titleLogin,
@@ -17,44 +11,13 @@ import {
 } from "../../utils/messageAndTitles.js";
 import { user1, user2 } from "../../utils/users.js";
 
-const maxWindow = { width: 1920, height: 1080 };
-
 test.describe("Login,Register,Contact Us", () => {
-  let browser, context, page;
-  /**@type {HomePage} */
-  let homepage;
-  /**@type {LoginSignUpPage} */
-  let loginsignuppage;
-  /**@type{SignUpPage} */
-  let signuppage;
-  /**@type{AccountCreatedPage} */
-  let accountcreatedpage;
-  /**@type{DeletePage} */
-  let deletepage;
-  /**@type{ContactUsPage}*/
-  let contacuspage;
-
-  test.beforeAll(async () => {
-    browser = await chromium.launch();
-    context = await browser.newContext();
-    page = await context.newPage();
-    await page.setViewportSize(maxWindow);
-    await page.goto("https://www.automationexercise.com/");
-    homepage = new HomePage(page);
-    loginsignuppage = new LoginSignUpPage(page);
-    signuppage = new SignUpPage(page);
-    accountcreatedpage = new AccountCreatedPage(page);
-    deletepage = new DeletePage(page);
-    contacuspage = new ContactUsPage(page);
-  });
-
-  test.afterAll(async () => {
-    // await new Promise((resolve) => setTimeout(resolve, 60000));
-    await context.close();
-    await page.close();
-  });
-
-  test("test 01 Register User", async () => {
+  test("test 01 Register User", async ({homepage,
+    loginsignuppage,
+    signuppage,
+    accountcreatedpage,
+    deletepage,
+  }) => {
     await homepage.verifyHomeButton();
     await homepage.clickSignupLoginLogoutButton();
     await loginsignuppage.verifyNewUserTitle(title);
@@ -70,7 +33,11 @@ test.describe("Login,Register,Contact Us", () => {
     await deletepage.verifyDeletionAndContinue(expectedDeleteMsg);
   });
 
-  test("test 02 Login User with correct email and password", async () => {
+  test("test 02 Login User with correct email and password", async ({homepage,
+    loginsignuppage,
+    signuppage,
+    accountcreatedpage,
+  }) => {
     await homepage.verifyHomeButton();
     await homepage.clickSignupLoginLogoutButton();
     await loginsignuppage.createNewUser(user2.name, user2.email);
@@ -86,7 +53,9 @@ test.describe("Login,Register,Contact Us", () => {
     await homepage.clickDeleteAccountButton();
   });
 
-  test("test 03 Login User with incorrect email and password", async () => {
+  test("test 03 Login User with incorrect email and password", async ({homepage,
+    loginsignuppage,
+  }) => {
     await homepage.verifyHomeButton();
     await homepage.clickSignupLoginLogoutButton();
     await loginsignuppage.verifyLoginTitle(titleLogin);
@@ -95,7 +64,12 @@ test.describe("Login,Register,Contact Us", () => {
     await loginsignuppage.verifyerrorLoginText(errorLoginMessage);
   });
 
-  test("test 04 Logout User", async () => {
+  test("test 04 Logout User", async ({homepage,
+    loginsignuppage,
+    signuppage,
+    accountcreatedpage,
+    deletepage
+  }) => {
     await homepage.clickSignupLoginLogoutButton();
     await loginsignuppage.createNewUser(user2.name, user2.email);
     await signuppage.registerNewAccount(user2);
@@ -111,7 +85,11 @@ test.describe("Login,Register,Contact Us", () => {
     await deletepage.verifyDeletionAndContinue(expectedDeleteMsg);
   });
 
-  test("test 05 Register User with existing email", async () => {
+  test("test 05 Register User with existing email", async ({homepage,
+    loginsignuppage,
+    signuppage,
+    deletepage,
+  }) => {
     await homepage.clickSignupLoginLogoutButton();
     await loginsignuppage.createNewUser(user2.name, user2.email);
     await signuppage.registerNewAccount(user2);
@@ -125,7 +103,9 @@ test.describe("Login,Register,Contact Us", () => {
     await deletepage.verifyDeletionAndContinue(expectedDeleteMsg);
   });
 
-  test("test 06  Contact Us Form", async () => {
+  test("test 06  Contact Us Form", async ({homepage,
+    contacuspage,
+  }) => {
     await homepage.verifyHomeButton();
     await homepage.clickContactUsButton();
     await contacuspage.verifyGetInTouchTitle(getInTouchTitle);
