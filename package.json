@@ -1,5 +1,4 @@
-{
-  "name": "playwright-automation-exercise-tests",
+{"name": "playwrightautomationexcersise",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {},
@@ -9,6 +8,6 @@
   "description": "",
   "devDependencies": {
     "@playwright/test": "^1.50.0",
-    "@types/node": "^22.10.2"
+    "allure-playwright": "^3.0.9"
   }
 }
