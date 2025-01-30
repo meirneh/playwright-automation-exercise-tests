@@ -8,8 +8,8 @@ import {
   errorExistMailMsg,
   getInTouchTitle,
   testText,
-} from "../../utils/messageAndTitles.js";
-import { user1, user2 } from "../../utils/users.js";
+} from "../utils/messageAndTitles.js";
+import { user1, user2 } from "../utils/users.js";
 
 test.describe("Login,Register,Contact Us", () => {
   test("test 01 Register User", async ({homepage,

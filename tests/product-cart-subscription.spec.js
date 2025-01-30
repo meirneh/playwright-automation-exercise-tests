@@ -6,8 +6,8 @@ import {
   productsList2,
   productInfo1,
   productItem,
-} from "../../utils/productsAndItems";
-import { user1 } from "../../utils/users";
+} from "../utils/productsAndItems";
+import { user1 } from "../utils/users";
 
 test.describe.serial("Product, Cart, and Subscription Functionality", () => {
   test("test 01 Verify All Products and product detail page ", async ({

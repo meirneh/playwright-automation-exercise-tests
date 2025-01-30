@@ -1,6 +1,6 @@
 import { test, expect } from "../fixtures/test-fixture";
-import { user1 } from "../../utils/users";
-import { expectedDeleteMsg } from "../../utils/messageAndTitles";
+import { user1 } from "../utils/users";
+import { expectedDeleteMsg } from "../utils/messageAndTitles";
 import {
   productsList1,
   quantityProductsInCart,
@@ -13,12 +13,12 @@ import {
   productInfo3,
   productInfo4,
   productInfo5,
-} from "../../utils/productsAndItems";
+} from "../utils/productsAndItems";
 
 import {
   expectedDeliveryInfo1,
   paymentDetails1,
-} from "../../utils/paymentsAndDeliveries";
+} from "../utils/paymentsAndDeliveries";
 
 test.describe.serial("Cart and Order Management", () => {
   test("test 01 Add Products in Cart", async ({
