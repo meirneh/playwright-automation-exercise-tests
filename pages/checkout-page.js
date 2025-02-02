@@ -216,7 +216,11 @@ export default class CheckoutPage extends Basepage {
   }
 
   async verifyAddresDeliveryCityStateZip(expectCityStateZip) {
-    const actualCityStateZip = await this.getAddresDeliveryCityStateZip();
+    let actualCityStateZip = await this.getAddresDeliveryCityStateZip();
+    actualCityStateZip = actualCityStateZip.replace(/\s+/g, " ").trim();
+    expectCityStateZip = expectCityStateZip.replace(/\s+/g, " ").trim();
+    console.log("Actual value:", actualCityStateZip);
+    console.log("Expected value:", expectCityStateZip);
     return expect(actualCityStateZip).toContain(expectCityStateZip);
   }
 
